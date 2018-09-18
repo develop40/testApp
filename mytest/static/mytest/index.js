@@ -4,6 +4,7 @@
 
 //решить проблему обновления коллекции при измененнии модели ХХХХ
 //решить проблему добавиления картинок при изменении маркера ХХХХ
+//убирать вью изменения после сохранения
 
 //Добавить поиск по маркерам----- ok
 //Отобразить маркеры на карте---ok
@@ -97,6 +98,7 @@ var MarkerListView= Marionette.CollectionView.extend({
 
     initialize: function(collection){
         this.collection= collection;
+
     },
 
 //    collectionEvents:{
@@ -121,6 +123,7 @@ var ChangeFormView= Marionette.View.extend({
             <br><input type="text" id="coordinates-marker" value= <%= point.coordinates%>>
             <p>Иконка
             <br><input type="text" id="icon-marker" value= <%= icon.id %>>
+            <p><select><option value="ok">ok</option></select>
             <p><input type="button" id="save-btn" value= Сохранить>
     `),
 
@@ -245,48 +248,6 @@ var Markers = Marionette.MnObject.extend({
     window.map.addLayer(vectorLayer);
 
     debugger
-
-
-//
-//    var point= this.collection.models[0].get('point').coordinates;
-//    debugger
-//
-//        let iconFeature= new ol.Feature({
-//            geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
-//            });
-//
-//         let iconFeature1= new ol.Feature({
-//            geometry: new ol.geom.Point(ol.proj.fromLonLat([10,10]))
-//         }) ;
-//
-//
-//
-//        let iconStyle= new ol.style.Style({
-//            image: new ol.style.Icon(({
-//                anchor: [0,0],
-//                src: 'static/mytest/red-pushpin.png'
-//            }))
-//        });
-//
-//        iconFeature.setStyle(iconStyle);
-//
-//        iconFeature1.setStyle(iconStyle);
-//
-//
-//        let vectorSource= new ol.source.Vector();
-//        vectorSource.addFeature(iconFeature);
-//        vectorSource.addFeature(iconFeature1);
-//
-//
-////        let vectorSource= new ol.source.Vector({
-////            features: [iconFeature]
-////        });
-//
-//        let vectorLayer= new ol.layer.Vector({
-//            source: vectorSource
-//        });
-//
-//        window.map.addLayer(vectorLayer);
 
             }
 
