@@ -1,0 +1,66 @@
+.card {
+    margin: 18px;
+    background: #99ccff;
+    z-index: 100;
+    width: 18rem;
+}
+
+.date{
+    font-size: 12px;
+    color: blue;
+
+}
+
+#map{
+
+    height: 50%;
+    width: 50%;
+}
+
+
+
+#question-container{
+    height: 100%;
+
+    position: absolute;
+    top: 5%;
+    left: 0;
+    overflow-y: auto;
+
+    z-index: 99;
+    background-color: white;
+
+
+}
+
+.ol-zoom.ol-unselectable.ol-control {
+        display: none;
+}
+
+#search{
+position: absolute;
+width: 100%;
+right: 0;
+top: 0;
+}
+
+.form-inline.my-2.my-lg-0{
+    position: relative;
+    right: 1px;
+
+}
+.card-header{
+    position: relative;
+}
+#remove{
+  position: absolute;
+  right: 10px;
+}
+
+
+.btn.btn-primary{
+    position: absolute;
+    right: 30px;
+    top: 5px;
+}
+
