@@ -1,6 +1,6 @@
 //Оставить две таблицы в базе---ok
 //Вывести карточки с маркерами и описанием--ok
-//Добавить возможность добавления и редактирования маркеров, удаления--ok
+//Добавить возможность добавления и редактирования маркеров, удаления--ok добавление!
 
 //решить проблему обновления коллекции при измененнии модели ХХХХ
 //решить проблему добавиления картинок при изменении маркера ХХХХ
@@ -10,7 +10,7 @@
 //Отобразить маркеры на карте---ok
 
 //---------------------templates-----------------------------------------------------
-cardTemplate= _.template(`<div id="add-region"></div>
+cardTemplate= _.template(`<div id="change-region"></div>
 
               <div class="card-header">
                   <%= title %> <input id='delete-btn' type='button' value='x'>
@@ -23,11 +23,39 @@ cardTemplate= _.template(`<div id="add-region"></div>
 
 markerContainer= _.template(`<div id='marker-container'></div>`);
 
-regionsTemplate= _.template(`<div id='marker-list-region'></div><div id='search-region'></div>`);
+regionsTemplate= _.template(`<div id='marker-list-region'></div>
+                            <div id='search-region'></div>
+                            <div id='add-region'></div>`);
 
 searchTemplate= _.template(`<p><input type="search" id="search-marker" placeholder="Поиск по сайту">
                                 <input type="button" id='search-btn' value="Найти"></p>`)
 
+changeTemplate= _.template(`
+            <p>Название
+            <br><input type="text" id="name-marker" value=<%= title %>>
+            <p>Описание
+            <br><input type="text" id="description-marker" value= <%= description %>>
+            <p>Координаты
+            <br><input type="text" id="coordinates-marker" value= <%= point.coordinates%>>
+            <p>Тип
+            <div id="select-region"></div>
+            </p>
+            <p><input type="button" id="save-btn" value= Сохранить>
+    `);
+
+
+addFormTemplate= _.template(`
+                <p>Название
+                <br><input type="text" id="name-marker">
+                <p>Описание
+                <br><input type="text" id="description-marker">
+                <p>Координаты
+                <br><input type="text" id="coordinates-marker">
+                <p>Тип
+                <div id="select-region"></div>
+                </p>
+                <p><input type="button" id="save-btn" value= Сохранить>
+                   `);
 
 
 
@@ -64,6 +92,17 @@ var MarkerCollection= Backbone.Collection.extend({
     model: MarkerModel
 });
 
+
+var IconModel= Backbone.Model.extend({
+    urlRoot: '/icon/'
+});
+
+var IconCollection= Backbone.Collection.extend({
+    url: '/icon/',
+    model: IconModel
+});
+
+
 //---------------------views------------------------------------------------------------
 
 var MarkerCardView= Marionette.View.extend({
@@ -72,7 +111,7 @@ var MarkerCardView= Marionette.View.extend({
     template: cardTemplate,
 
     regions:{
-      'addRegion': '#add-region'
+      'addRegion': '#change-region'
     },
 
     events:{
@@ -111,31 +150,52 @@ var MarkerListView= Marionette.CollectionView.extend({
     }
 });
 
+//---------------------------------------------select marker views------------------------------
+
+var IconView= Marionette.View.extend({
+    tagName: 'option',
+    attributes: {
+        'value': function () {
+             return IconView.arguments['0'].model.attributes.id;
+        },
+        },
+   template: _.template(`<%= title %>`)
+});
+
+var IconListView= Marionette.CollectionView.extend({
+   tagName: 'select',
+   id: 'icon-select',
+   template: false,
+   childView: IconView,
+   initialize: function(){
+        this.collection= new IconCollection();
+        this.collection.fetch();
+   }
+});
+
+//------------------------------------------change marker-------------------------------------
 
 var ChangeFormView= Marionette.View.extend({
     changeList: {},
-    template: _.template(`
-            <p>Название
-            <br><input type="text" id="name-marker" value=<%= title %>>
-            <p>Описание
-            <br><input type="text" id="description-marker" value= <%= description %>>
-            <p>Координаты
-            <br><input type="text" id="coordinates-marker" value= <%= point.coordinates%>>
-            <p>Иконка
-            <br><input type="text" id="icon-marker" value= <%= icon.id %>>
-            <p><select><option value="ok">ok</option></select>
-            <p><input type="button" id="save-btn" value= Сохранить>
-    `),
+   // <br><input type="text" id="icon-marker" value= <%= icon.title %>>
+    template: changeTemplate,
 
     initialize: function(model){
         this.model=model;
+//        this.collection= new IconCollection();
+//        this.collection.fetch();
     },
+
+    regions:{
+        'iconRegion': '#select-region'
+    },
+
 
     events:{
         'change #name-marker': 'changeName',
         'change #description-marker': 'changeDesc',
         'change #coordinates-marker': 'changeCoord',
-        //'change #icon-marker': 'changeIcon',
+        'change #icon-select': 'changeIcon',
         'click #save-btn': 'saveChanges',
     },
 
@@ -150,6 +210,12 @@ var ChangeFormView= Marionette.View.extend({
 
     changeCoord: function(){
         this.changeList.coordinates= $('#coordinates-marker').val()
+    },
+
+    changeIcon: function(){
+        this.changeList.icon=$('#icon-select').val();
+
+            alert(this.changeList.icon)
     },
 
 //    changeIcon: function(){
@@ -168,9 +234,35 @@ var ChangeFormView= Marionette.View.extend({
         var data=this.changeList;
        debugger
         this.model.save({'data':{'id':_id,'type':'Marker', 'attributes': data}}, {'patch': true});
+        this.destroy();
+    },
+
+    onRender: function(){
+        this.showChildView('iconRegion', new IconListView())
     }
 });
 
+//---------------------------------add marker--------------------------------------------
+var AddFormView= Marionette.View.extend({
+    template: addFormTemplate,
+    initialize:function(){
+        this.collection= new IconCollection();
+    },
+
+    onRender: function(){
+        this.collection.fetch();
+    },
+
+    regions:{
+        'iconRegion': '#select-region'
+    },
+
+    onRender: function(){
+        this.showChildView('iconRegion', new IconListView())
+    }
+});
+
+//----------------------------------search marker----------------------------------------
 
 var SearchView= Marionette.View.extend({
    template: searchTemplate,
@@ -189,6 +281,7 @@ var SearchView= Marionette.View.extend({
     }
 });
 
+//----------------------------------create map and show markers-----------------------------
 
 var Markers = Marionette.MnObject.extend({
    initialize: function(){
@@ -220,7 +313,7 @@ var Markers = Marionette.MnObject.extend({
 
     this.collection.each(function(model){
         var point= model.get('point').coordinates;
-        alert(point);
+       // alert(point);
 
          let iconFeature= new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
@@ -229,7 +322,8 @@ var Markers = Marionette.MnObject.extend({
          let iconStyle= new ol.style.Style({
             image: new ol.style.Icon(({
                 anchor: [0.3,1],
-                src: 'static/mytest/red-pushpin.png'
+                src: model.get('icon').path,
+                //size: [1,1]
             }))
         });
 
@@ -250,12 +344,9 @@ var Markers = Marionette.MnObject.extend({
     debugger
 
             }
-
-
-
-
-
 });
+
+//-------------------------------------main view----------------------------------------
 
 var MainView= Marionette.View.extend({
 
@@ -266,6 +357,7 @@ var MainView= Marionette.View.extend({
   regions:{
       'markerList': '#marker-list-region',
       'searchRegion': '#search-region',
+      'addRegion': '#add-region',
   },
 
 
@@ -278,6 +370,7 @@ var MainView= Marionette.View.extend({
       this.search= new SearchView(this.colMarker);
       this.showChildView('searchRegion', this.search);
 
+      this.showChildView('addRegion', new AddFormView());
   }
 });
 

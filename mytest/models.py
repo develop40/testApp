@@ -34,13 +34,16 @@ class Icon(models.Model):
     title = models.CharField(max_length=100)
     path = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.title
+
 
 class Marker(models.Model):
     #choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=200)
     point = models.PointField(null=True)
-    icon= models.ForeignKey(Icon, on_delete=models.CASCADE)
+    icon= models.ForeignKey(Icon,  on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

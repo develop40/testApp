@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.contrib.gis.geos import GEOSGeometry
 import datetime
 from rest_framework_json_api.relations import ResourceRelatedField
+import pdb
 
 
 # сериализатор geojson в Wkt- формат координат
@@ -42,51 +43,66 @@ class IconSerializer(serializers.ModelSerializer):
         model = Icon
         fields = ('url', 'id', 'title', 'path')
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data['title']
-        instance.path = validated_data['path']
-        instance.save()
-        return instance
-
 
 class MarkerSerializer(serializers.ModelSerializer):
-    # choice= ChoiceSerializer()
-   # icon = IconSerializer()
+    partial = True
+    #icon = IconSerializer()
 
     class Meta:
         model = Marker
-        fields = '__all__'  # ('url', 'id', 'title', 'description','icon', 'point')
+        fields = ('url', 'id', 'title', 'description', 'icon', 'point')
+        depth = 1
 
-    # def update(self, instance, validated_data):
-    #     fields= instance._meta.fields
-    #     exclude=[]
-    #     for field in fields:
-    #         field=field.name.split('.')[-1]
-    #         if field in exclude:
-    #             continue
-    #         exec ("instance.%s = validated_data.get(field, instance.%s)"%(field,field))
-    #
-    #     instance.save()
-    #
-    #     return instance
-
-        # # Delete any detail not included in the request
-        # owner_ids = [item['owner_id'] for item in validated_data['owners']]
-        # for owner in cars.owners.all():
-        #     if owner.id not in owner_ids:
-        #         owner.delete()
+    def update(self, instance, validated_data):
+        pdb.set_trace()
+        # # instance.title= validated_data.get('title', instance.title)
         #
-        # # Create or update owner
-        # for owner in validated_data['owners']:
-        #     ownerObj = Owner.objects.get(pk=item['id'])
-        #     if ownerObje:
-        #         ownerObj.some_field = item['some_field']
-        #         ....fields...
-        #     else:
-        #         ownerObj = Owner.create(car=instance, **owner)
-        #     ownerObj.save()
+        #  icon_data= validated_data.pop('icon')
+        #  instance.icon= IconSerializer.create(IconSerializer(), validated_data=icon_data)
+        #  instance.save()
+        return instance
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+# def update(self, instance, validated_data):
+#     fields= instance._meta.fields
+#     exclude=[]
+#     for field in fields:
+#         field=field.name.split('.')[-1]
+#         if field in exclude:
+#             continue
+#         exec ("instance.%s = validated_data.get(field, instance.%s)"%(field,field))
+#
+#     instance.save()
+#
+#     return instance
+
+# # Delete any detail not included in the request
+# owner_ids = [item['owner_id'] for item in validated_data['owners']]
+# for owner in cars.owners.all():
+#     if owner.id not in owner_ids:
+#         owner.delete()
+#
+# # Create or update owner
+# for owner in validated_data['owners']:
+#     ownerObj = Owner.objects.get(pk=item['id'])
+#     if ownerObje:
+#         ownerObj.some_field = item['some_field']
+#         ....fields...
+#     else:
+#         ownerObj = Owner.create(car=instance, **owner)
+#     ownerObj.save()
 
 
 # point.geoCoords=GEOSGeometry('SRID=4326; POINT(' + value + ')')

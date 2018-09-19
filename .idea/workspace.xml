@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/mytest/static/mytest/index.js" line="71" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/mytest/static/mytest/index.js" line="110" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff7e49ca-f142-41eb-aa19-48f23af4f269" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mytest/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mytest/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mytest/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mytest/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mytest/static/mytest/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/mytest/static/mytest/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mytest/static/mytest/red-pushpin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mytest/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mytest/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -109,17 +112,17 @@
     <session id="-2074174994">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.14" value="3" />
           <entry key="project.open.time.15" value="2" />
-          <entry key="project.open.time.16" value="2" />
+          <entry key="project.open.time.16" value="3" />
           <entry key="project.open.time.19" value="2" />
           <entry key="project.open.time.6" value="2" />
-          <entry key="project.opened" value="16" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -127,7 +130,7 @@
           <entry key="css" value="1" />
           <entry key="html" value="3" />
           <entry key="js" value="23" />
-          <entry key="py" value="29" />
+          <entry key="py" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -135,23 +138,25 @@
           <entry key="CSS" value="1" />
           <entry key="HTML" value="3" />
           <entry key="JavaScript" value="23" />
-          <entry key="Python" value="29" />
+          <entry key="Python" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="1679" />
           <entry key="html" value="958" />
-          <entry key="js" value="25253" />
-          <entry key="py" value="4321" />
+          <entry key="js" value="28425" />
+          <entry key="py" value="5549" />
+          <entry key="txt" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1679" />
           <entry key="HTML" value="958" />
-          <entry key="JavaScript" value="25253" />
-          <entry key="Python" value="4321" />
+          <entry key="JavaScript" value="28425" />
+          <entry key="PLAIN_TEXT" value="10" />
+          <entry key="Python" value="5549" />
         </counts>
       </usages-collector>
     </session>
@@ -161,8 +166,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytest/static/mytest/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+            <state relative-caret-position="330">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -176,11 +181,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytest/static/mytest/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3190">
-              <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+            <state relative-caret-position="14">
+              <caret line="122" column="29" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -188,24 +193,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytest/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
+            <state relative-caret-position="465">
+              <caret line="59" column="48" lean-forward="true" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
-                <marker date="1537261130060" expanded="true" signature="248:250" ph="..." />
-                <marker date="1537261130060" expanded="true" signature="931:932" ph="..." />
-                <marker date="1537261130060" expanded="true" signature="931:1408" ph="..." />
-                <marker date="1537261130060" expanded="true" signature="1987:1988" ph="..." />
+                <marker date="1537367676117" expanded="true" signature="259:261" ph="..." />
+                <marker date="1537367676117" expanded="true" signature="942:943" ph="..." />
+                <marker date="1537367676117" expanded="true" signature="942:1226" ph="..." />
+                <marker date="1537367676117" expanded="true" signature="1601:1818" ph="..." />
+                <marker date="1537367676117" expanded="true" signature="2125:2126" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testproject/settings.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mytest/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+            <state relative-caret-position="417">
+              <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+              <folding>
+                <element signature="e#0#43#0" expanded="true" />
+                <marker date="1537363748370" expanded="true" signature="1633:1638" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -222,10 +232,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytest/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+            <state relative-caret-position="570">
+              <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
               <folding>
-                <marker date="1537251561617" expanded="true" signature="428:434" ph="..." />
+                <marker date="1537361190434" expanded="true" signature="428:434" ph="..." />
               </folding>
             </state>
           </provider>
@@ -252,6 +262,13 @@
       <find>ok</find>
       <find>deb</find>
       <find>fetch</find>
+      <find>icon</find>
+      <find>alert</find>
+      <find>option</find>
+      <find>addRe</find>
+      <find>select-icons</find>
+      <find>ico</find>
+      <find>patch</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -272,17 +289,18 @@
         <option value="$PROJECT_DIR$/mytest/static/mytest/index_S_pravkami.js" />
         <option value="$PROJECT_DIR$/mytest/static/mytest/map.js" />
         <option value="$PROJECT_DIR$/mytest/templates/mytest/index.html" />
-        <option value="$PROJECT_DIR$/mytest/views.py" />
-        <option value="$PROJECT_DIR$/mytest/models.py" />
         <option value="$PROJECT_DIR$/testproject/settings.py" />
         <option value="$PROJECT_DIR$/mytest/urls.py" />
-        <option value="$PROJECT_DIR$/mytest/serializers.py" />
         <option value="$PROJECT_DIR$/mytest/static/mytest/style.css" />
+        <option value="$PROJECT_DIR$/mytest/models.py" />
+        <option value="$PROJECT_DIR$/mytest/views.py" />
+        <option value="$PROJECT_DIR$/mytest/serializers.py" />
         <option value="$PROJECT_DIR$/mytest/static/mytest/index.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
+    <option name="x" value="961" />
     <option name="width" value="959" />
     <option name="height" value="1050" />
   </component>
@@ -420,18 +438,26 @@
       <option name="presentableId" value="Default" />
       <updated>1535352466614</updated>
     </task>
+    <task id="LOCAL-00001" summary="Something">
+      <created>1537280924427</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1537280924427</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="959" height="1050" extended-state="4" />
+    <frame x="961" y="0" width="959" height="1050" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.06256517" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32911393" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32911393" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39978904" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -470,6 +496,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Something" />
+    <option name="LAST_COMMIT_MESSAGE" value="Something" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/mytest/apps.py">
@@ -637,17 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="55" column="27" selection-start-line="55" selection-start-column="27" selection-end-line="55" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-            <marker date="1536732637000" expanded="true" signature="1622:1627" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.7/site-packages/rest_framework/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -655,26 +674,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/models.py">
+    <entry file="file://$PROJECT_DIR$/mytest/static/mytest/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
-          <folding>
-            <marker date="1537251561617" expanded="true" signature="428:434" ph="..." />
-          </folding>
+        <state relative-caret-position="330">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python3.7/site-packages/django/conf/__init__.py">
+    <entry file="file://$PROJECT_DIR$/mytest/templates/mytest/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        <state relative-caret-position="120">
+          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testproject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="810">
           <caret line="54" column="4" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
         </state>
       </provider>
@@ -686,38 +702,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/static/mytest/style.css">
+    <entry file="file://$PROJECT_DIR$/mytest/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/templates/mytest/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
+        <state relative-caret-position="570">
+          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
-            <marker date="1537261130060" expanded="true" signature="248:250" ph="..." />
-            <marker date="1537261130060" expanded="true" signature="931:932" ph="..." />
-            <marker date="1537261130060" expanded="true" signature="931:1408" ph="..." />
-            <marker date="1537261130060" expanded="true" signature="1987:1988" ph="..." />
+            <marker date="1537361190434" expanded="true" signature="428:434" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python3.7/site-packages/django/conf/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mytest/static/mytest/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3190">
-          <caret line="6" column="40" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
+        <state relative-caret-position="14">
+          <caret line="122" column="29" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mytest/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="59" column="48" lean-forward="true" selection-start-line="59" selection-start-column="48" selection-end-line="59" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <marker date="1537367676117" expanded="true" signature="259:261" ph="..." />
+            <marker date="1537367676117" expanded="true" signature="942:943" ph="..." />
+            <marker date="1537367676117" expanded="true" signature="942:1226" ph="..." />
+            <marker date="1537367676117" expanded="true" signature="1601:1818" ph="..." />
+            <marker date="1537367676117" expanded="true" signature="2125:2126" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mytest/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="42" column="39" selection-start-line="42" selection-start-column="39" selection-end-line="42" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+            <marker date="1537363748370" expanded="true" signature="1633:1638" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

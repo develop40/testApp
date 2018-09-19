@@ -12,6 +12,7 @@ from django.template import loader
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework import filters
+import pdb
 
 def index(request):
     template = loader.get_template('mytest/index.html')
@@ -58,6 +59,9 @@ class MarkerViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ["$title", "$description"]
 
+
+    # def partial_update(self, request, pk=None):
+    #     pass
 
 class IconViewSet(viewsets.ModelViewSet):
     queryset = Icon.objects.all()
