@@ -291,16 +291,18 @@ var Markers = Marionette.MnObject.extend({
    },
 
    addMap: function(){
+
         window.map= new ol.Map({
             target: 'map',
             layers: [
                 new ol.layer.Tile({ source: new ol.source.OSM()})
             ],
 
+
             view: new ol.View({
                 //projection: 'EPSG:3857',
-                center: [0, 0],
-                zoom: 0
+                center: ol.proj.fromLonLat( [39.7146 ,47.2305]),
+                zoom: 16
             })
         });
    },

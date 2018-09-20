@@ -43,7 +43,7 @@ class Marker(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=200)
     point = models.PointField(null=True)
-    icon= models.ForeignKey(Icon,  on_delete=models.CASCADE)
+    icon= models.ForeignKey(Icon, related_name='icons',  on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

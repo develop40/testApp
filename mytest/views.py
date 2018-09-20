@@ -52,6 +52,7 @@ class ChoiceViewSet(viewsets.ModelViewSet):
     search_fields = ["$choice_text"]
 
 
+
 class MarkerViewSet(viewsets.ModelViewSet):
     queryset = Marker.objects.all()
     serializer_class = MarkerSerializer
@@ -59,9 +60,16 @@ class MarkerViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ["$title", "$description"]
 
+    def retrieve(self, request, pk=None):
+        queryset= Marker.objects.all()
+        serializer_context = {'request': request}
+        question = get_object_or_404(queryset, pk=pk)
+        serializer = MarkerGetSerializer(question, context=serializer_context)
+       # pdb.set_trace()
+        return Response(serializer.data)
 
-    # def partial_update(self, request, pk=None):
-    #     pass
+
+
 
 class IconViewSet(viewsets.ModelViewSet):
     queryset = Icon.objects.all()

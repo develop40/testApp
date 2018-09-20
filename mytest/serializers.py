@@ -51,19 +51,10 @@ class MarkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Marker
         fields = ('url', 'id', 'title', 'description', 'icon', 'point')
-        depth = 1
-
-    def update(self, instance, validated_data):
-        pdb.set_trace()
-        # # instance.title= validated_data.get('title', instance.title)
-        #
-        #  icon_data= validated_data.pop('icon')
-        #  instance.icon= IconSerializer.create(IconSerializer(), validated_data=icon_data)
-        #  instance.save()
-        return instance
 
 
-
+class MarkerGetSerializer(MarkerSerializer):
+    icon= IconSerializer()
 
 
 
