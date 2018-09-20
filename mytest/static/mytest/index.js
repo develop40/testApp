@@ -110,6 +110,10 @@ var MarkerCardView= Marionette.View.extend({
     className: 'card',
     template: cardTemplate,
 
+    initialize:function(){
+        this.listenTo(this.model, 'sync', this.render)
+    },
+
     regions:{
       'addRegion': '#change-region'
     },
@@ -131,22 +135,24 @@ var MarkerCardView= Marionette.View.extend({
 
 
 var MarkerListView= Marionette.CollectionView.extend({
+
     childView: MarkerCardView,
     childViewContainer: '#marker-container',
     template: _.template(`<div id='marker-container'></div>`),
 
     initialize: function(collection){
-        this.collection= collection;
 
+        this.collection= collection;
+        this.collection.fetch();
+
+         // this.listenTo(this.collection,'sync', this.render);
     },
 
-//    collectionEvents:{
-//        'sync': 'test'
-//    },
-//    test:function(){debugger},
-
     onRender:function(){
-        this.collection.fetch();
+
+
+
+
     }
 });
 
@@ -177,7 +183,7 @@ var IconListView= Marionette.CollectionView.extend({
 
 var ChangeFormView= Marionette.View.extend({
     changeList: {},
-   // <br><input type="text" id="icon-marker" value= <%= icon.title %>>
+
     template: changeTemplate,
 
     initialize: function(model){
@@ -197,6 +203,7 @@ var ChangeFormView= Marionette.View.extend({
         'change #icon-select': 'changeIcon',
         'click #save-btn': 'saveChanges',
     },
+
 
     changeName: function(){
         this.changeList.title=$('#name-marker').val();
@@ -222,29 +229,31 @@ var ChangeFormView= Marionette.View.extend({
 
 
     saveChanges: function(){
-        for(var key in this.changeList){
+        debugger
 
-            this.model.set(key, this.changeList[key]);
-        }
-
-        //this.changeList.id=this.model.get('id');
+        if(!Object.keys(this.changeList).length !== 0){
         this.changeList.id= this.model.get('id');
+
         var data=this.changeList;
 
         this.model.save(data,{'patch': true});
+        }
         this.destroy();
+
     },
 
     onRender: function(){
         this.showChildView('iconRegion', new IconListView())
     }
+
+
 });
 
 //---------------------------------add marker--------------------------------------------
 var AddFormView= Marionette.View.extend({
     template: addFormTemplate,
     initialize:function(collection){
-        this.collection= collection
+        this.collection=collection;
     },
 
     regions:{
@@ -259,7 +268,9 @@ var AddFormView= Marionette.View.extend({
         'click #save-btn': 'addMarker'
     },
 
+
     addMarker: function(){
+
         var newModel= new MarkerModel()
 
         if ($('#name-marker').val()!='')
@@ -276,10 +287,11 @@ var AddFormView= Marionette.View.extend({
                 }
 
 
-debugger
-       newModel.set('icon', $('#icon-select').val())
 
-        newModel.save();
+       newModel.set('icon', $('#icon-select').val())
+       _this=this;
+       //возможно использовать addOne, но это не точно
+        newModel.save({wait:true} ,{success: function(){_this.collection.fetch()}});
     }
 });
 
@@ -373,6 +385,12 @@ var Markers = Marionette.MnObject.extend({
 
 var MainView= Marionette.View.extend({
 
+   initialize:function(){
+         this.colMarker= new MarkerCollection();
+         this.viewMarkerCol= new MarkerListView(this.colMarker);
+         this.search= new SearchView(this.colMarker);
+         //this.listenTo(this.viewMarkerCol, 'change', this.viewMarkerCol.render)
+   },
 
   template: regionsTemplate,
 
@@ -387,13 +405,13 @@ var MainView= Marionette.View.extend({
 
   onRender: function(){
 
-      this.colMarker= new MarkerCollection();
-      this.viewMarkerCol= new MarkerListView(this.colMarker);
+
+
       this.showChildView('markerList', this.viewMarkerCol);
-      this.search= new SearchView(this.colMarker);
+
       this.showChildView('searchRegion', this.search);
 
-      this.showChildView('addRegion', new AddFormView());
+      this.showChildView('addRegion', new AddFormView(this.colMarker));
   }
 });
 

@@ -4,7 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/mytest/static/mytest/index.js" line="110" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff7e49ca-f142-41eb-aa19-48f23af4f269" name="Default Changelist" comment="">
+    <list default="true" id="ff7e49ca-f142-41eb-aa19-48f23af4f269" name="Default Changelist" comment="Something">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mytest/static/mytest/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/mytest/static/mytest/index.js" afterDir="false" />
     </list>
@@ -141,7 +141,7 @@
         <counts>
           <entry key="css" value="1679" />
           <entry key="html" value="976" />
-          <entry key="js" value="29616" />
+          <entry key="js" value="30835" />
           <entry key="py" value="6464" />
           <entry key="txt" value="10" />
         </counts>
@@ -150,7 +150,7 @@
         <counts>
           <entry key="CSS" value="1679" />
           <entry key="HTML" value="976" />
-          <entry key="JavaScript" value="29616" />
+          <entry key="JavaScript" value="30835" />
           <entry key="PLAIN_TEXT" value="10" />
           <entry key="Python" value="6464" />
         </counts>
@@ -180,8 +180,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mytest/static/mytest/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
+            <state relative-caret-position="523">
+              <caret line="292" column="52" selection-start-line="292" selection-start-column="52" selection-end-line="292" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -265,10 +265,8 @@
       <find>model</find>
       <find>collection</find>
       <find>reg</find>
-      <find>save</find>
       <find>MainView</find>
       <find>ok</find>
-      <find>deb</find>
       <find>fetch</find>
       <find>icon</find>
       <find>alert</find>
@@ -280,6 +278,8 @@
       <find>debu</find>
       <find>create</find>
       <find>changeF</find>
+      <find>deb</find>
+      <find>save</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -491,14 +491,21 @@
       <option name="project" value="LOCAL" />
       <updated>1537437221114</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Something">
+      <created>1537443057622</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1537443057622</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="961" y="0" width="959" height="1050" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.07612096" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07612096" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -773,6 +780,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mytest/templates/mytest/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="17" lean-forward="true" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mytest/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -788,17 +802,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mytest/templates/mytest/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="17" lean-forward="true" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mytest/static/mytest/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="221" lean-forward="true" selection-start-line="221" selection-end-line="221" />
+        <state relative-caret-position="523">
+          <caret line="292" column="52" selection-start-line="292" selection-start-column="52" selection-end-line="292" selection-end-column="52" />
         </state>
       </provider>
     </entry>
