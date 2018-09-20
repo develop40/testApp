@@ -60,21 +60,15 @@ class MarkerViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ["$title", "$description"]
 
+
+
     def list(self, request):
-        queryset= Marker.objects.all()
+
+        queryset= self.filter_queryset(self.get_queryset())
         serializer_context= {'request': request}
         serializer= MarkerGetSerializer(queryset, many=True, context=serializer_context)
         #pdb.set_trace()
         return Response(serializer.data)
-
-    # def retrieve(self, request, pk=None):
-    #     queryset= Marker.objects.all()
-    #     serializer_context = {'request': request}
-    #     question = get_object_or_404(queryset, pk=pk)
-    #     serializer = MarkerGetSerializer(question, context=serializer_context)
-    #    # pdb.set_trace()
-    #     return Response(serializer.data)
-
 
 
 
