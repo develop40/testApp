@@ -190,7 +190,6 @@ var ChangeFormView= Marionette.View.extend({
         'iconRegion': '#select-region'
     },
 
-
     events:{
         'change #name-marker': 'changeName',
         'change #description-marker': 'changeDesc',
@@ -285,9 +284,11 @@ var SearchView= Marionette.View.extend({
 
 var Markers = Marionette.MnObject.extend({
    initialize: function(){
+
         this.collection=new MarkerCollection();
-        _this=this;
+       _this=this;
         this.collection.fetch({success: function(){_this.addMap(); _this.addLayers()}})
+
    },
 
    addMap: function(){
@@ -305,14 +306,14 @@ var Markers = Marionette.MnObject.extend({
                 zoom: 16
             })
         });
-   },
+  }
+  ,
 
 
    addLayers: function(){
-
     var arrayFeature=[];
     var count= 0;
-
+    debugger
     this.collection.each(function(model){
         var point= model.get('point').coordinates;
        // alert(point);
@@ -324,10 +325,10 @@ var Markers = Marionette.MnObject.extend({
          let iconStyle= new ol.style.Style({
             image: new ol.style.Icon(({
                 anchor: [0.3,1],
-                src: model.get('icon').path,
-                //size: [1,1]
+                src: model.get('icon').path
             }))
         });
+
 
         iconFeature.setStyle(iconStyle);
 
@@ -382,7 +383,9 @@ var MyApp= Marionette.Application.extend({
 
 
     onStart(){
-         var obj= new Markers();
+
+      var obj= new Markers();
+     // obj.addMap();
 
       this.showView(new MainView());
       Backbone.history.start();
