@@ -208,7 +208,10 @@ var ChangeFormView= Marionette.View.extend({
     },
 
     changeCoord: function(){
-        this.changeList.coordinates= $('#coordinates-marker').val()
+        var point= {}
+        point.type= "Point";
+        point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
+        this.changeList.point= point;//$('#coordinates-marker').val()
     },
 
     changeIcon: function(){
@@ -217,10 +220,6 @@ var ChangeFormView= Marionette.View.extend({
             alert(this.changeList.icon)
     },
 
-//    changeIcon: function(){
-//        this.changeList.icon= $('#icon-marker').val();
-//        alert (changeList.icon)
-//    },
 
     saveChanges: function(){
         for(var key in this.changeList){
@@ -229,10 +228,10 @@ var ChangeFormView= Marionette.View.extend({
         }
 
         //this.changeList.id=this.model.get('id');
-        var _id= this.model.get('id');
+        this.changeList.id= this.model.get('id');
         var data=this.changeList;
 
-        this.model.save({'data':{'id':_id,'type':'Marker', 'attributes': data}}, {'patch': true});
+        this.model.save(data,{'patch': true});
         this.destroy();
     },
 
@@ -270,8 +269,10 @@ var AddFormView= Marionette.View.extend({
             {newModel.set('description', $('#description-marker').val())}
 
         if ($('#coordinates-marker').val()!='')
-            {
-                newModel.set('point', coords);
+            {   var point={}
+                point.type= "Point";
+                point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
+                newModel.set('point', point);
                 }
 
 
