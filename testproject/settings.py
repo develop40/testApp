@@ -147,11 +147,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
 
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework_json_api.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ),
+    # 'DEFAULT_PARSER_CLASSES': (
+    #     #'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework_json_api.parsers.JSONParser',
+    #     'rest_framework.parsers.FormParser',
+    #     'rest_framework.parsers.MultiPartParser'
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.TokenAuthentication',

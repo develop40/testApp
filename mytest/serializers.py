@@ -46,15 +46,22 @@ class IconSerializer(serializers.ModelSerializer):
 
 class MarkerSerializer(serializers.ModelSerializer):
     partial = True
-    #icon = IconSerializer()
+   # point= serializers.SerializerMethodField()
 
     class Meta:
         model = Marker
         fields = ('url', 'id', 'title', 'description', 'icon', 'point')
 
+    # def get_point(self, obj):
+    #     coordinates= list(obj.point.coords)
+    #     print(coordinates)
+    #     #pdb.set_trace()
+    #     return coordinates
+
 
 class MarkerGetSerializer(MarkerSerializer):
     icon= IconSerializer()
+
 
 
 

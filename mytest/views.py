@@ -20,28 +20,11 @@ def index(request):
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
-
-    #queryset = Choice.objects.all()
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ['$question_text']
 
-
-    # permission_classes = [AllowAny]
-
-    # def list(self, request):
-    #     queryset = Question.objects.all()
-    #     serializer_context = {'request': request}
-    #     serializer = QuestionSerializer(queryset, many=True, context=serializer_context)
-    #     return Response(serializer.data)
-
-    # def retrieve(self, request, pk=None):
-    #     queryset = Question.objects.all()
-    #     serializer_context={'request': request}
-    #     question= get_object_or_404(queryset, pk=pk)
-    #     serializer=QuestionSerializer(question, context=serializer_context)
-    #     return Response(serializer.data)
 
 
 class ChoiceViewSet(viewsets.ModelViewSet):
@@ -63,7 +46,6 @@ class MarkerViewSet(viewsets.ModelViewSet):
 
 
     def list(self, request):
-
         queryset= self.filter_queryset(self.get_queryset())
         serializer_context= {'request': request}
         serializer= MarkerGetSerializer(queryset, many=True, context=serializer_context)

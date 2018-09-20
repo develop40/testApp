@@ -68,7 +68,7 @@ Backbone.sync = function(method, model, options) {
         beforeSend: function(xhr) {
             var token = $('meta[name="csrf-token"]').attr('content');
             if (token) {xhr.setRequestHeader('Authorization', token);
-                        xhr.setRequestHeader("Content-Type", "application/vnd.api+json");}
+                        xhr.setRequestHeader("Content-Type", "application/json");}
         }
     }, options)
     return Backbone.old_sync(method, model, new_options);
@@ -231,7 +231,7 @@ var ChangeFormView= Marionette.View.extend({
         //this.changeList.id=this.model.get('id');
         var _id= this.model.get('id');
         var data=this.changeList;
-       debugger
+
         this.model.save({'data':{'id':_id,'type':'Marker', 'attributes': data}}, {'patch': true});
         this.destroy();
     },
@@ -244,12 +244,8 @@ var ChangeFormView= Marionette.View.extend({
 //---------------------------------add marker--------------------------------------------
 var AddFormView= Marionette.View.extend({
     template: addFormTemplate,
-    initialize:function(){
-        this.collection= new IconCollection();
-    },
-
-    onRender: function(){
-        this.collection.fetch();
+    initialize:function(collection){
+        this.collection= collection
     },
 
     regions:{
@@ -258,6 +254,31 @@ var AddFormView= Marionette.View.extend({
 
     onRender: function(){
         this.showChildView('iconRegion', new IconListView())
+    },
+
+    events:{
+        'click #save-btn': 'addMarker'
+    },
+
+    addMarker: function(){
+        var newModel= new MarkerModel()
+
+        if ($('#name-marker').val()!='')
+            {newModel.set('title', $('#name-marker').val())}
+
+        if ($('#description-marker').val()!='')
+            {newModel.set('description', $('#description-marker').val())}
+
+        if ($('#coordinates-marker').val()!='')
+            {
+                newModel.set('point', coords);
+                }
+
+
+debugger
+       newModel.set('icon', $('#icon-select').val())
+
+        newModel.save();
     }
 });
 
@@ -313,7 +334,7 @@ var Markers = Marionette.MnObject.extend({
    addLayers: function(){
     var arrayFeature=[];
     var count= 0;
-    debugger
+
     this.collection.each(function(model){
         var point= model.get('point').coordinates;
        // alert(point);
@@ -343,8 +364,6 @@ var Markers = Marionette.MnObject.extend({
         });
 
     window.map.addLayer(vectorLayer);
-
-    debugger
 
             }
 });
