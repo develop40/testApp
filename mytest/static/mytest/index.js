@@ -229,7 +229,6 @@ var ChangeFormView= Marionette.View.extend({
 
 
     saveChanges: function(){
-        debugger
 
         if(!Object.keys(this.changeList).length !== 0){
         this.changeList.id= this.model.get('id');
@@ -268,9 +267,17 @@ var AddFormView= Marionette.View.extend({
         'click #save-btn': 'addMarker'
     },
 
+    collectionEvents:{
+        'sync': 'test'
+    },
+
+    test: function(){
+
+//        window.map.removeLayer(window.map.getLayers().array_[1])
+//         window.obj.addLayers();
+            },
 
     addMarker: function(){
-
         var newModel= new MarkerModel()
 
         if ($('#name-marker').val()!='')
@@ -291,7 +298,8 @@ var AddFormView= Marionette.View.extend({
        newModel.set('icon', $('#icon-select').val())
        _this=this;
        //возможно использовать addOne, но это не точно
-        newModel.save({wait:true} ,{success: function(){_this.collection.fetch()}});
+        newModel.save({wait:true} ,{success: function(){
+                                                _this.collection.fetch()}});
     }
 });
 
@@ -317,16 +325,14 @@ var SearchView= Marionette.View.extend({
 //----------------------------------create map and show markers-----------------------------
 
 var Markers = Marionette.MnObject.extend({
-   initialize: function(){
+   initialize: function(collection){
 
-        this.collection=new MarkerCollection();
+        this.collection= collection;
        _this=this;
         this.collection.fetch({success: function(){_this.addMap(); _this.addLayers()}})
-
-   },
+   },//добавить sync???
 
    addMap: function(){
-
         window.map= new ol.Map({
             target: 'map',
             layers: [
@@ -405,13 +411,16 @@ var MainView= Marionette.View.extend({
 
   onRender: function(){
 
-
-
       this.showChildView('markerList', this.viewMarkerCol);
 
       this.showChildView('searchRegion', this.search);
 
       this.showChildView('addRegion', new AddFormView(this.colMarker));
+    window.obj= new Markers(this.colMarker);
+//      window.obj.addMap();
+//      window.obj.addLayers();
+
+
   }
 });
 
@@ -422,7 +431,6 @@ var MyApp= Marionette.Application.extend({
 
     onStart(){
 
-      var obj= new Markers();
      // obj.addMap();
 
       this.showView(new MainView());
