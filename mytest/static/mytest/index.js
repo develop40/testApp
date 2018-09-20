@@ -143,15 +143,11 @@ var MarkerListView= Marionette.CollectionView.extend({
     initialize: function(collection){
 
         this.collection= collection;
-        this.collection.fetch();
-
          // this.listenTo(this.collection,'sync', this.render);
     },
 
     onRender:function(){
-
-
-
+             this.collection.fetch();
 
     }
 });
@@ -291,7 +287,7 @@ var AddFormView= Marionette.View.extend({
                 point.type= "Point";
                 point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
                 newModel.set('point', point);
-                }
+            }
 
 
 
