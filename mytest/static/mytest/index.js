@@ -146,6 +146,10 @@ var MarkerListView= Marionette.CollectionView.extend({
          // this.listenTo(this.collection,'sync', this.render);
     },
 
+    collectionEvents:{
+        'sync': 'render'
+    }
+
     onRender:function(){
              this.collection.fetch();
 
@@ -263,15 +267,7 @@ var AddFormView= Marionette.View.extend({
         'click #save-btn': 'addMarker'
     },
 
-    collectionEvents:{
-        'sync': 'test'
-    },
 
-    test: function(){
-
-//        window.map.removeLayer(window.map.getLayers().array_[1])
-//         window.obj.addLayers();
-            },
 
     addMarker: function(){
         var newModel= new MarkerModel()
@@ -403,6 +399,14 @@ var MainView= Marionette.View.extend({
       'addRegion': '#add-region',
   },
 
+//   collectionEvents:{
+//        'sync': 'test'
+//    },
+//
+//    test: function(){
+//
+//            alert('sync')
+//            },
 
 
   onRender: function(){
