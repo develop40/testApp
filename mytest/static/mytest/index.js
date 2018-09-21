@@ -2,9 +2,9 @@
 //Вывести карточки с маркерами и описанием--ok
 //Добавить возможность добавления и редактирования маркеров, удаления--ok добавление!
 
-//решить проблему обновления коллекции при измененнии модели ХХХХ
+//решить проблему обновления коллекции при измененнии модели ---ok
 //решить проблему добавиления картинок при изменении маркера ХХХХ
-//убирать вью изменения после сохранения
+//убирать вью изменения после сохранения---ok
 
 //Добавить поиск по маркерам----- ok
 //Отобразить маркеры на карте---ok
@@ -124,7 +124,7 @@ var MarkerCardView= Marionette.View.extend({
     },
 
     onDelete: function(){
-        this.model.destroy();
+        this.model.destroy({wait: true});
     },
 
     renderChangeForm: function(){
@@ -143,16 +143,12 @@ var MarkerListView= Marionette.CollectionView.extend({
     initialize: function(collection){
 
         this.collection= collection;
-         // this.listenTo(this.collection,'sync', this.render);
+
     },
 
-    collectionEvents:{
-        'sync': 'render'
-    }
 
     onRender:function(){
-             this.collection.fetch();
-
+            // this.collection.fetch();
     }
 });
 
@@ -234,8 +230,8 @@ var ChangeFormView= Marionette.View.extend({
         this.changeList.id= this.model.get('id');
 
         var data=this.changeList;
-
-        this.model.save(data,{'patch': true});
+        _this=this;
+        this.model.save(data,{'patch': true, success: function(){alert('change'),_this.collection.fetch()}});
         }
         this.destroy();
 
@@ -268,7 +264,6 @@ var AddFormView= Marionette.View.extend({
     },
 
 
-
     addMarker: function(){
         var newModel= new MarkerModel()
 
@@ -289,7 +284,9 @@ var AddFormView= Marionette.View.extend({
 
        newModel.set('icon', $('#icon-select').val())
        _this=this;
+
        //возможно использовать addOne, но это не точно
+
         newModel.save({wait:true} ,{success: function(){
                                                 _this.collection.fetch()}});
     }
@@ -320,9 +317,9 @@ var Markers = Marionette.MnObject.extend({
    initialize: function(collection){
 
         this.collection= collection;
-       _this=this;
-        this.collection.fetch({success: function(){_this.addMap(); _this.addLayers()}})
-   },//добавить sync???
+//       _this=this;
+//        this.collection.fetch({success: function(){_this.addMap(); _this.addLayers()}})
+   },
 
    addMap: function(){
         window.map= new ol.Map({
@@ -335,7 +332,7 @@ var Markers = Marionette.MnObject.extend({
             view: new ol.View({
                 //projection: 'EPSG:3857',
                 center: ol.proj.fromLonLat( [39.7146 ,47.2305]),
-                zoom: 16
+                zoom: 0
             })
         });
   }
@@ -343,6 +340,7 @@ var Markers = Marionette.MnObject.extend({
 
 
    addLayers: function(){
+
     var arrayFeature=[];
     var count= 0;
 
@@ -377,6 +375,7 @@ var Markers = Marionette.MnObject.extend({
     window.map.addLayer(vectorLayer);
 
             }
+
 });
 
 //-------------------------------------main view----------------------------------------
@@ -385,13 +384,34 @@ var MainView= Marionette.View.extend({
 
    initialize:function(){
          this.colMarker= new MarkerCollection();
+         this.colMarker.fetch();
+
          this.viewMarkerCol= new MarkerListView(this.colMarker);
          this.search= new SearchView(this.colMarker);
-         //this.listenTo(this.viewMarkerCol, 'change', this.viewMarkerCol.render)
+         this.obj= new Markers(this.colMarker)
+         this.obj.addMap();
+
+
+         //this.listenTo(this.colMarker, 'reset', this.viewMarkerCol.render)
+         this.listenTo(this.colMarker, 'sync', this.renderCol)
    },
 
   template: regionsTemplate,
 
+
+    renderCol:function(){
+        alert('renderCol');
+        this.showChildView('markerList', this.viewMarkerCol);
+
+
+        if(window.map.getLayers().array_.length>=2){
+                //debugger
+                dropLayer=window.map.getLayers().array_.pop();
+                window.map.removeLayer(dropLayer);
+            }
+        this.obj.addLayers()
+
+    },
 
   regions:{
       'markerList': '#marker-list-region',
@@ -399,26 +419,20 @@ var MainView= Marionette.View.extend({
       'addRegion': '#add-region',
   },
 
-//   collectionEvents:{
-//        'sync': 'test'
-//    },
-//
-//    test: function(){
-//
-//            alert('sync')
-//            },
+
+ events:{
+        'click #save-btn': 'addMarker'
+    },
+
 
 
   onRender: function(){
 
-      this.showChildView('markerList', this.viewMarkerCol);
+     // this.showChildView('markerList', this.viewMarkerCol);
 
       this.showChildView('searchRegion', this.search);
 
       this.showChildView('addRegion', new AddFormView(this.colMarker));
-    window.obj= new Markers(this.colMarker);
-//      window.obj.addMap();
-//      window.obj.addLayers();
 
 
   }
