@@ -45,17 +45,17 @@ class IconSerializer(serializers.ModelSerializer):
 
 
 class MarkerSerializer(serializers.ModelSerializer):
+   # icon = IconSerializer()
     class Meta:
         model = Marker
         fields = ('url', 'id', 'title', 'description', 'icon', 'point')
 
 
-class MarkerGetSerializer(MarkerSerializer):
+class MarkerGetSerializer(serializers.ModelSerializer):
     icon= IconSerializer()
-
-
-
-
+    class Meta:
+        model=Marker
+        fields= ('url', 'id', 'title', 'description', 'icon', 'point')
 
 
 

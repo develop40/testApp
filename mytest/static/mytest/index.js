@@ -446,7 +446,6 @@ var MyApp= Marionette.Application.extend({
     onStart(){
 
      // obj.addMap();
-
       this.showView(new MainView());
       Backbone.history.start();
     }

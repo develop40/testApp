@@ -12,6 +12,7 @@ from django.template import loader
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework import filters
+from  rest_framework import serializers
 import pdb
 
 
@@ -56,6 +57,9 @@ class MarkerViewSet(viewsets.ModelViewSet):
         serializer = MarkerGetSerializer(marker, context=serializer_context)
         return Response(serializer.data)
 
+    # def partial_update(self, request, pk):
+    #     serializer= MarkerSerializer(data=request.data, partial=True)
+
     # def partial_update(self, request, pk=None):
     #
     #     icon_key = request.data.get('icon')
@@ -70,24 +74,19 @@ class MarkerViewSet(viewsets.ModelViewSet):
     #
     #     return Response(serializer.data)
 
-    # def partial_update(self, request, pk=None):
-    #
-    #     serializer_context = {'request': request}
-    #     serializer = MarkerSerializer(partial=True, data=request.data)
-    #
-    #     serializer.is_valid()
-    #     serializer.save()
-    #
-    #     icon_key = request.data.get('icon')
-    #     get_icon = Icon.objects.get(pk=icon_key)
-    #     request.data['icon'] = get_icon
-    #
-    #     _serializer= MarkerGetSerializer(partial=True, data=request.data, context=serializer_context)
-    #     _serializer.is_valid()
-    #     #pdb.set_trace()
-    #
-    #     return Response(_serializer.data)
+    def partial_update(self, request, pk=None):
+        serializer_context = {'request': request}
+        marker = Marker.objects.get(pk=pk)
 
+        serializer = MarkerSerializer(marker, data=request.data, partial=True)
+
+        serializer.is_valid()
+        instance = serializer.save()
+
+        _serializer = MarkerGetSerializer(instance, context=serializer_context)
+        #_serializer.is_valid()
+
+        return Response(_serializer.data)
 
 
 class IconViewSet(viewsets.ModelViewSet):
