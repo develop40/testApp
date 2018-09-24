@@ -104,14 +104,16 @@ var IconCollection= Backbone.Collection.extend({
 
 
 //---------------------views------------------------------------------------------------
+// перенести сюда change и создавать маркеры здесь
 
 var MarkerCardView= Marionette.View.extend({
     tagName: 'div',
     className: 'card',
     template: cardTemplate,
+    changeList: {},
 
     initialize:function(){
-        this.listenTo(this.model, 'sync', this.render)
+        this.listenTo(this.model, 'change', this.render)
     },
 
     regions:{
@@ -123,8 +125,53 @@ var MarkerCardView= Marionette.View.extend({
         'click #change-btn': 'renderChangeForm',
     },
 
+
+
+    childViewEvents:{
+        'change:name': 'changeName',
+        'change:description': 'changeDesc',
+        'change:coordinates': 'changeCoord',
+        'change:icon': 'changeIcon',
+        'click:save': 'saveChanges'
+    },
+
     onDelete: function(){
         this.model.destroy({wait: true});
+    },
+
+
+    changeName: function(){
+        this.changeList.title=$('#name-marker').val();
+    },
+
+    changeDesc: function(){
+        this.changeList.description=$('#description-marker').val();
+    },
+
+    changeCoord: function(){
+        var point= {}
+        point.type= "Point";
+        point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
+        this.changeList.point= point;//$('#coordinates-marker').val()
+    },
+
+
+     changeIcon: function(){
+        this.changeList.icon=$('#icon-select').val();
+
+            alert(this.changeList.icon)
+    },
+
+
+    saveChanges: function(){
+
+        if(!Object.keys(this.changeList).length !== 0){
+        this.changeList.id= this.model.get('id');
+        var data=this.changeList;
+        _this=this;
+        this.model.save(data,{'patch': true, success: function(){}, wait:true});
+        }
+       // this.destroy();
     },
 
     renderChangeForm: function(){
@@ -141,14 +188,12 @@ var MarkerListView= Marionette.CollectionView.extend({
     template: _.template(`<div id='marker-container'></div>`),
 
     initialize: function(collection){
-
         this.collection= collection;
-
     },
-
 
     onRender:function(){
             // this.collection.fetch();
+            alert('collection render');
     }
 });
 
@@ -184,8 +229,6 @@ var ChangeFormView= Marionette.View.extend({
 
     initialize: function(model){
         this.model=model;
-//        this.collection= new IconCollection();
-//        this.collection.fetch();
     },
 
     regions:{
@@ -193,49 +236,16 @@ var ChangeFormView= Marionette.View.extend({
     },
 
     events:{
-        'change #name-marker': 'changeName',
-        'change #description-marker': 'changeDesc',
-        'change #coordinates-marker': 'changeCoord',
-        'change #icon-select': 'changeIcon',
-        'click #save-btn': 'saveChanges',
+        'click #save-btn': 'destroy'
     },
 
-
-    changeName: function(){
-        this.changeList.title=$('#name-marker').val();
-
-    },
-
-    changeDesc: function(){
-        this.changeList.description=$('#description-marker').val();
-    },
-
-    changeCoord: function(){
-        var point= {}
-        point.type= "Point";
-        point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
-        this.changeList.point= point;//$('#coordinates-marker').val()
-    },
-
-    changeIcon: function(){
-        this.changeList.icon=$('#icon-select').val();
-
-            alert(this.changeList.icon)
-    },
-
-
-    saveChanges: function(){
-
-        if(!Object.keys(this.changeList).length !== 0){
-        this.changeList.id= this.model.get('id');
-
-        var data=this.changeList;
-        _this=this;
-        this.model.save(data,{'patch': true, success: function(){alert('change'),_this.collection.fetch()}});
-        }
-        this.destroy();
-
-    },
+        triggers: {
+            'change #name-marker': 'change:name',
+            'change #description-marker': 'change:description',
+            'change #coordinates-marker': 'change:coordinates',
+            'change #icon-select': 'change:icon',
+            'click #save-btn': 'click:save'
+        },
 
     onRender: function(){
         this.showChildView('iconRegion', new IconListView())
@@ -392,26 +402,25 @@ var MainView= Marionette.View.extend({
          this.obj.addMap();
 
 
-         //this.listenTo(this.colMarker, 'reset', this.viewMarkerCol.render)
-         this.listenTo(this.colMarker, 'sync', this.renderCol)
+        // this.listenTo(this.colMarker, 'sync', this.renderCol)
    },
 
   template: regionsTemplate,
 
 
-    renderCol:function(){
-        alert('renderCol');
-        this.showChildView('markerList', this.viewMarkerCol);
-
-
-        if(window.map.getLayers().array_.length>=2){
-                //debugger
-                dropLayer=window.map.getLayers().array_.pop();
-                window.map.removeLayer(dropLayer);
-            }
-        this.obj.addLayers()
-
-    },
+//    renderCol:function(){
+//        alert('renderCol');
+//        this.showChildView('markerList', this.viewMarkerCol);
+//
+//
+//        if(window.map.getLayers().array_.length>=2){
+//                //debugger
+//                dropLayer=window.map.getLayers().array_.pop();
+//                window.map.removeLayer(dropLayer);
+//            }
+//        this.obj.addLayers()
+//
+//    },
 
   regions:{
       'markerList': '#marker-list-region',
@@ -429,6 +438,7 @@ var MainView= Marionette.View.extend({
   onRender: function(){
 
      // this.showChildView('markerList', this.viewMarkerCol);
+                this.showChildView('markerList', this.viewMarkerCol);
 
       this.showChildView('searchRegion', this.search);
 
