@@ -165,7 +165,7 @@ var MarkerCardView= Marionette.View.extend({
 
     saveChanges: function(){
 
-        if(!Object.keys(this.changeList).length !== 0){
+        if(Object.keys(this.changeList).length !== 0){
         this.changeList.id= this.model.get('id');
         var data=this.changeList;
         _this=this;
@@ -189,12 +189,22 @@ var MarkerListView= Marionette.CollectionView.extend({
 
     initialize: function(collection){
         this.collection= collection;
+
+        //this.listenTo(this.collection, 'add', this.addOne)
     },
+
 
     onRender:function(){
             // this.collection.fetch();
-            alert('collection render');
-    }
+         alert('collection render');
+    },
+
+//    addOne: function(model){
+//        debugger
+//
+//        var view= new MarkerCardView(model);
+//        //this.$el.append(view.render().el);
+//    }
 });
 
 //---------------------------------------------select marker views------------------------------
@@ -239,6 +249,7 @@ var ChangeFormView= Marionette.View.extend({
         'click #save-btn': 'destroy'
     },
 
+
         triggers: {
             'change #name-marker': 'change:name',
             'change #description-marker': 'change:description',
@@ -250,15 +261,17 @@ var ChangeFormView= Marionette.View.extend({
     onRender: function(){
         this.showChildView('iconRegion', new IconListView())
     }
-
-
 });
+
 
 //---------------------------------add marker--------------------------------------------
 var AddFormView= Marionette.View.extend({
     template: addFormTemplate,
+
     initialize:function(collection){
         this.collection=collection;
+        this.newModel= new MarkerModel();
+        this.listenTo(this.newModel, 'sync', this.alarm);
     },
 
     regions:{
@@ -273,32 +286,34 @@ var AddFormView= Marionette.View.extend({
         'click #save-btn': 'addMarker'
     },
 
+    alarm: function(){
+            alert("add model in col");
+            this.collection.add(this.model.attributes);
+    },
 
     addMarker: function(){
-        var newModel= new MarkerModel()
+
+        //var newModel= new MarkerModel()
 
         if ($('#name-marker').val()!='')
-            {newModel.set('title', $('#name-marker').val())}
+            {this.newModel.set('title', $('#name-marker').val())}
 
         if ($('#description-marker').val()!='')
-            {newModel.set('description', $('#description-marker').val())}
+            {this.newModel.set('description', $('#description-marker').val())}
 
         if ($('#coordinates-marker').val()!='')
             {   var point={}
                 point.type= "Point";
                 point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
-                newModel.set('point', point);
+                this.newModel.set('point', point);
             }
 
 
-
-       newModel.set('icon', $('#icon-select').val())
-       _this=this;
-
+       this.newModel.set('icon', $('#icon-select').val());
        //возможно использовать addOne, но это не точно
 
-        newModel.save({wait:true} ,{success: function(){
-                                                _this.collection.fetch()}});
+        this.newModel.save({wait:true} ,{success: function(){}});
+
     }
 });
 
