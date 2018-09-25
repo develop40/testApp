@@ -57,7 +57,41 @@ class MarkerViewSet(viewsets.ModelViewSet):
         serializer = MarkerGetSerializer(marker, context=serializer_context)
         return Response(serializer.data)
 
-    # def partial_update(self, request, pk):
+    def partial_update(self, request, pk=None):
+        serializer_context = {'request': request}
+        marker = Marker.objects.get(pk=pk)
+
+        serializer = MarkerSerializer(marker, data=request.data, partial=True)
+
+        serializer.is_valid()
+        instance = serializer.save()
+
+        _serializer = MarkerGetSerializer(instance, context=serializer_context)
+        #_serializer.is_valid()
+        return Response(_serializer.data)
+
+    def create(self, request):
+
+        serializer_context = {'request': request}
+        serializer = MarkerSerializer(data=request.data, context=serializer_context)
+        serializer.is_valid()
+        instance = serializer.save()
+
+        _serializer= MarkerGetSerializer(instance, context=serializer_context)
+
+        return Response(_serializer.data)
+
+
+class IconViewSet(viewsets.ModelViewSet):
+    queryset = Icon.objects.all()
+    serializer_class = IconSerializer
+    permission_classes = [AllowAny]
+
+
+
+
+
+ # def partial_update(self, request, pk):
     #     serializer= MarkerSerializer(data=request.data, partial=True)
 
     # def partial_update(self, request, pk=None):
@@ -73,23 +107,3 @@ class MarkerViewSet(viewsets.ModelViewSet):
     #     serializer.save()
     #
     #     return Response(serializer.data)
-
-    def partial_update(self, request, pk=None):
-        serializer_context = {'request': request}
-        marker = Marker.objects.get(pk=pk)
-
-        serializer = MarkerSerializer(marker, data=request.data, partial=True)
-
-        serializer.is_valid()
-        instance = serializer.save()
-
-        _serializer = MarkerGetSerializer(instance, context=serializer_context)
-        #_serializer.is_valid()
-
-        return Response(_serializer.data)
-
-
-class IconViewSet(viewsets.ModelViewSet):
-    queryset = Icon.objects.all()
-    serializer_class = IconSerializer
-    permission_classes = [AllowAny]

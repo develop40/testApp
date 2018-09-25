@@ -113,7 +113,9 @@ var MarkerCardView= Marionette.View.extend({
     changeList: {},
 
     initialize:function(){
-        this.listenTo(this.model, 'change', this.render)
+        this.listenTo(this.model, 'change', this.render);
+        this.addMarkerOnMap(this.model);
+
     },
 
     regions:{
@@ -152,13 +154,12 @@ var MarkerCardView= Marionette.View.extend({
         var point= {}
         point.type= "Point";
         point.coordinates=$('#coordinates-marker').val().split(',').map(string=>parseInt(string));
-        this.changeList.point= point;//$('#coordinates-marker').val()
+        this.changeList.point= point;
     },
 
 
      changeIcon: function(){
         this.changeList.icon=$('#icon-select').val();
-
             alert(this.changeList.icon)
     },
 
@@ -171,12 +172,31 @@ var MarkerCardView= Marionette.View.extend({
         _this=this;
         this.model.save(data,{'patch': true, success: function(){}, wait:true});
         }
-       // this.destroy();
     },
 
     renderChangeForm: function(){
         changeForm= new ChangeFormView(this.model);
         this.showChildView('addRegion', changeForm);
+    },
+
+    addMarkerOnMap: function(){
+
+
+         let point= this.model.get('point').coordinates;
+
+         this.iconFeature= new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
+            });
+
+         let iconStyle= new ol.style.Style({
+            image: new ol.style.Icon(({
+                anchor: [0.3,1],
+                src: this.model.get('icon').path
+            }))
+        });
+
+         this.iconFeature.setStyle(iconStyle);
+           //debugger
     }
 });
 
@@ -189,13 +209,16 @@ var MarkerListView= Marionette.CollectionView.extend({
 
     initialize: function(collection){
         this.collection= collection;
+        this.listenTo(this.collection, 'add', this.addLayers)
+    },
 
-        //this.listenTo(this.collection, 'add', this.addOne)
+    addLayers: function(){
+        alert('add layer');
+        debugger
     },
 
 
     onRender:function(){
-            // this.collection.fetch();
          alert('collection render');
     },
 
@@ -289,8 +312,6 @@ var AddFormView= Marionette.View.extend({
 
     addMarker: function(){
 
-        //var newModel= new MarkerModel()
-
         if ($('#name-marker').val()!='')
             {this.newModel.set('title', $('#name-marker').val())}
 
@@ -306,7 +327,6 @@ var AddFormView= Marionette.View.extend({
 
 
        this.newModel.set('icon', $('#icon-select').val());
-       //возможно использовать addOne, но это не точно
 
         this.newModel.save({wait:true} ,{success: function(){}});
 
@@ -338,27 +358,7 @@ var Markers = Marionette.MnObject.extend({
    initialize: function(collection){
 
         this.collection= collection;
-//       _this=this;
-//        this.collection.fetch({success: function(){_this.addMap(); _this.addLayers()}})
    },
-
-   addMap: function(){
-        window.map= new ol.Map({
-            target: 'map',
-            layers: [
-                new ol.layer.Tile({ source: new ol.source.OSM()})
-            ],
-
-
-            view: new ol.View({
-                //projection: 'EPSG:3857',
-                center: ol.proj.fromLonLat( [39.7146 ,47.2305]),
-                zoom: 0
-            })
-        });
-  }
-  ,
-
 
    addLayers: function(){
 
@@ -367,7 +367,6 @@ var Markers = Marionette.MnObject.extend({
 
     this.collection.each(function(model){
         var point= model.get('point').coordinates;
-       // alert(point);
 
          let iconFeature= new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
@@ -409,29 +408,12 @@ var MainView= Marionette.View.extend({
 
          this.viewMarkerCol= new MarkerListView(this.colMarker);
          this.search= new SearchView(this.colMarker);
-         this.obj= new Markers(this.colMarker)
-         this.obj.addMap();
-
-
-        // this.listenTo(this.colMarker, 'sync', this.renderCol)
+         //this.obj= new Markers(this.colMarker)
+         //this.obj.addMap();
    },
 
   template: regionsTemplate,
 
-
-//    renderCol:function(){
-//        alert('renderCol');
-//        this.showChildView('markerList', this.viewMarkerCol);
-//
-//
-//        if(window.map.getLayers().array_.length>=2){
-//                //debugger
-//                dropLayer=window.map.getLayers().array_.pop();
-//                window.map.removeLayer(dropLayer);
-//            }
-//        this.obj.addLayers()
-//
-//    },
 
   regions:{
       'markerList': '#marker-list-region',
@@ -448,14 +430,29 @@ var MainView= Marionette.View.extend({
 
   onRender: function(){
 
-     // this.showChildView('markerList', this.viewMarkerCol);
-                this.showChildView('markerList', this.viewMarkerCol);
+      this.addMap();
+
+      this.showChildView('markerList', this.viewMarkerCol);
 
       this.showChildView('searchRegion', this.search);
 
       this.showChildView('addRegion', new AddFormView(this.colMarker));
+  },
+
+  addMap: function(){
+         window.map= new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({ source: new ol.source.OSM()})
+            ],
 
 
+            view: new ol.View({
+
+                center: ol.proj.fromLonLat( [39.7146 ,47.2305]),
+                zoom: 0
+            })
+        });
   }
 });
 
@@ -466,7 +463,6 @@ var MyApp= Marionette.Application.extend({
 
     onStart(){
 
-     // obj.addMap();
       this.showView(new MainView());
       Backbone.history.start();
     }
