@@ -199,12 +199,6 @@ var MarkerListView= Marionette.CollectionView.extend({
          alert('collection render');
     },
 
-//    addOne: function(model){
-//        debugger
-//
-//        var view= new MarkerCardView(model);
-//        //this.$el.append(view.render().el);
-//    }
 });
 
 //---------------------------------------------select marker views------------------------------
@@ -288,7 +282,9 @@ var AddFormView= Marionette.View.extend({
 
     alarm: function(){
             alert("add model in col");
-            this.collection.add(this.model.attributes);
+           //  debugger
+            this.collection.add(this.newModel.attributes);
+
     },
 
     addMarker: function(){
