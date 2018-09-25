@@ -139,6 +139,7 @@ var MarkerCardView= Marionette.View.extend({
 
     onDelete: function(){
         this.model.destroy({wait: true});
+        window.vectorSource.removeFeature(this.iconFeature);
     },
 
 
@@ -161,6 +162,7 @@ var MarkerCardView= Marionette.View.extend({
      changeIcon: function(){
         this.changeList.icon=$('#icon-select').val();
             alert(this.changeList.icon)
+        var icon= new IconModel({id: this.changeList.icon});
     },
 
 
@@ -171,7 +173,27 @@ var MarkerCardView= Marionette.View.extend({
         var data=this.changeList;
         _this=this;
         this.model.save(data,{'patch': true, success: function(){}, wait:true});
+
+        var iconMap= new IconModel({id: this.changeList.icon});
+        _this=this;
+        iconMap.fetch({
+            success: function(model){
+                 let iconStyle= new ol.style.Style({
+            image: new ol.style.Icon(({
+                anchor: [0.3,1],
+                src: model.get('path')
+                                     }))
+                             });
+                _this.iconFeature.setStyle(iconStyle);
+            }
+        });
+
+
+
+
+
         }
+
     },
 
     renderChangeForm: function(){
@@ -193,8 +215,10 @@ var MarkerCardView= Marionette.View.extend({
                 anchor: [0.3,1],
                 src: this.model.get('icon').path
             }))
+
         });
 
+         window.vectorSource.addFeature(this.iconFeature);
          this.iconFeature.setStyle(iconStyle);
            //debugger
     }
@@ -209,14 +233,13 @@ var MarkerListView= Marionette.CollectionView.extend({
 
     initialize: function(collection){
         this.collection= collection;
-        this.listenTo(this.collection, 'add', this.addLayers)
+       // this.listenTo(this.collection, 'add', this.addLayers)
     },
 
-    addLayers: function(){
-        alert('add layer');
-        debugger
-    },
-
+//    addLayers: function(){
+//        alert('add layer');
+//      //  debugger
+//    },
 
     onRender:function(){
          alert('collection render');
@@ -354,49 +377,49 @@ var SearchView= Marionette.View.extend({
 
 //----------------------------------create map and show markers-----------------------------
 
-var Markers = Marionette.MnObject.extend({
-   initialize: function(collection){
-
-        this.collection= collection;
-   },
-
-   addLayers: function(){
-
-    var arrayFeature=[];
-    var count= 0;
-
-    this.collection.each(function(model){
-        var point= model.get('point').coordinates;
-
-         let iconFeature= new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
-            });
-
-         let iconStyle= new ol.style.Style({
-            image: new ol.style.Icon(({
-                anchor: [0.3,1],
-                src: model.get('icon').path
-            }))
-        });
-
-
-        iconFeature.setStyle(iconStyle);
-
-        arrayFeature[count++]=iconFeature;
-    });
-
-    let vectorSource= new ol.source.Vector();
-    vectorSource.addFeatures(arrayFeature);
-
-    let vectorLayer= new ol.layer.Vector({
-            source: vectorSource
-        });
-
-    window.map.addLayer(vectorLayer);
-
-            }
-
-});
+//var Markers = Marionette.MnObject.extend({
+//   initialize: function(collection){
+//
+//        this.collection= collection;
+//   },
+//
+//   addLayers: function(){
+//
+//    var arrayFeature=[];
+//    var count= 0;
+//
+//    this.collection.each(function(model){
+//        var point= model.get('point').coordinates;
+//
+//         let iconFeature= new ol.Feature({
+//            geometry: new ol.geom.Point(ol.proj.fromLonLat(point))
+//            });
+//
+//         let iconStyle= new ol.style.Style({
+//            image: new ol.style.Icon(({
+//                anchor: [0.3,1],
+//                src: model.get('icon').path
+//            }))
+//        });
+//
+//
+//        iconFeature.setStyle(iconStyle);
+//
+//        arrayFeature[count++]=iconFeature;
+//    });
+//
+//    let vectorSource= new ol.source.Vector();
+//    vectorSource.addFeatures(arrayFeature);
+//
+//    let vectorLayer= new ol.layer.Vector({
+//            source: vectorSource
+//        });
+//
+//    window.map.addLayer(vectorLayer);
+//
+//            }
+//
+//});
 
 //-------------------------------------main view----------------------------------------
 
@@ -410,6 +433,18 @@ var MainView= Marionette.View.extend({
          this.search= new SearchView(this.colMarker);
          //this.obj= new Markers(this.colMarker)
          //this.obj.addMap();
+         this.listenTo(this.colMarker, 'sync', this.addLayers);
+   },
+
+   addLayers: function(){
+
+                window.vectorLayer= new ol.layer.Vector(
+                    {
+                        source:  window.vectorSource
+                    });
+                   // debugger
+
+                window.map.addLayer(window.vectorLayer);
    },
 
   template: regionsTemplate,
@@ -430,13 +465,14 @@ var MainView= Marionette.View.extend({
 
   onRender: function(){
 
-      this.addMap();
+
 
       this.showChildView('markerList', this.viewMarkerCol);
 
       this.showChildView('searchRegion', this.search);
 
       this.showChildView('addRegion', new AddFormView(this.colMarker));
+       this.addMap();
   },
 
   addMap: function(){
@@ -453,6 +489,9 @@ var MainView= Marionette.View.extend({
                 zoom: 0
             })
         });
+
+          window.vectorSource=new ol.source.Vector();
+       // debugger
   }
 });
 
@@ -462,7 +501,6 @@ var MyApp= Marionette.Application.extend({
 
 
     onStart(){
-
       this.showView(new MainView());
       Backbone.history.start();
     }
