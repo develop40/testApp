@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,6 +127,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS= [os.path.join(BASE_DIR, 'static')]
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -141,6 +145,9 @@ TEMPLATES = [
         },
     },
 ]
+
+
+TEMPLATE_DIRS= [os.path.join(BASE_DIR, 'templates')]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

@@ -4,7 +4,8 @@ from . import views
 from rest_framework import routers
 from django.views.generic.base import TemplateView
 
-
+from django.conf import settings
+from django.conf.urls.static import static
 # app_name = 'mytest'
 router = routers.SimpleRouter()
 
@@ -23,3 +24,4 @@ urlpatterns+=[path('', views.index, name='index'),
               path('silk/', include('silk.urls', namespace='silk')),
               ]
 
+#urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
